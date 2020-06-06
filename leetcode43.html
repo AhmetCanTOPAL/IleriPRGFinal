@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        var multiply = function(num1, num2) {
+            // Result can have at most this number of digits:
+            var result = Array(num1.length + num2.length).fill(0);
+            for (var j = num2.length - 1; j >= 0; j--) {
+                // k is the index in the result: where to add to 
+                var k = num1.length + j;
+                var overflow = 0;
+                for (var i = num1.length - 1; i >= 0; i--) {
+                    product = num2[j] * num1[i] + overflow + result[k];
+                    result[k] = product % 10;
+                    overflow = (product - result[k]) / 10;
+                    k--;
+                }
+                result[k] += overflow;
+            }
+            // Convert result to string, removing any prepadded zeroes
+            return result.join('').replace(/^0+(.)/, '$1');
+        }
+
+        // I/O handling
+        var inputs = "123456789";
+        var output = "987654321";
+
+        inputs[0].oninput = calculate;
+        inputs[1].oninput = calculate;
+
+        function calculate() {
+        output.textContent = multiply(inputs[0].value, inputs[1].value);
+        }
+
+        var result = multiply("123456789","987654321");
+
+    </script>
+</body>
+</html>
